@@ -2,6 +2,7 @@ import * as types from "../constants/auth.constants";
 const initialState = {
   user: {},
   isAuthenticated: null,
+  accessToken: "",
   loading: false,
 };
 
@@ -22,6 +23,17 @@ const authReducer = (state = initialState, action) => {
     case types.LOGIN_FAILURE:
       return { ...state, isAuthenticated: false, loading: false };
 
+    case types.GET_CURRENT_USER_REQUEST:
+      return { ...state, loading: true };
+    case types.GET_CURRENT_USER_SUCCESS:
+      return {
+        ...state,
+        user: payload,
+        isAuthenticated: true,
+        loading: false,
+      };
+    case types.GET_CURRENT_USER_FAILURE:
+      return { ...state, loading: false, isAuthenticated: false };
     case types.REGISTER_REQUEST:
       return { ...state, loading: true };
     case types.REGISTER_SUCCESS:

@@ -18,6 +18,7 @@ import { Link, useHistory } from "react-router-dom";
 import SearchForm from "../components/SearchForm";
 import BlogCard from "../components/BlogCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import authActions from "../redux/actions/auth.actions";
 
 const HomePage = () => {
   const blogs = useSelector((state) => state.blog.blogs);
@@ -41,6 +42,15 @@ const HomePage = () => {
       blogActions.blogsRequest(pageNum, query, sortBy, ascending, searchBy)
     );
   }, [dispatch, pageNum, query, sortBy, ascending, searchBy]);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken && accessToken !== "undefined") {
+      dispatch(authActions.getCurrentUser(accessToken));
+    } else {
+      dispatch(authActions.logout());
+    }
+  }, [dispatch]);
 
   const clickBlog = (blogId) => {
     history.push(`/blogs/${blogId}`);

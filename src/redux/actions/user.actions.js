@@ -2,10 +2,10 @@ import api from "../../apiService";
 import * as types from "../constants/user.constants";
 
 // the middleware functions will be here
-const getCurrentUserInfo = () => async (dispatch) => {
+const getCurrentUserInfo = (authToken) => async (dispatch) => {
   dispatch({ type: types.GET_CURRENT_USER_REQUEST, payload: null });
   try {
-    const res = api.get(`users/me`);
+    const res = api.get(`/users/me`, authToken);
     dispatch({ type: types.GET_CURRENT_USER_SUCCESS, payload: res.data.data });
     console.log("actions", res.data.data);
   } catch (error) {

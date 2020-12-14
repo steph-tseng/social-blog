@@ -6,12 +6,13 @@ import userActions from "../../redux/actions/user.actions";
 const ProfilePage = () => {
   const user = useSelector((state) => state.user.selectedUser);
   const loading = useSelector((state) => state.user.loading);
+  const authToken = useSelector((state) => state.auth.accessToken);
   const dispatch = useDispatch();
   console.log(user);
 
   useEffect(() => {
-    dispatch(userActions.getCurrentUserInfo());
-  }, [dispatch]);
+    dispatch(userActions.getCurrentUserInfo(authToken));
+  }, [dispatch, authToken]);
 
   return (
     <Container className="text-center">
